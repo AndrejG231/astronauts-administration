@@ -36,6 +36,26 @@ class AstronautResolver {
 
     return astronaut
   }
+
+  // LIST - Retrieve list of all astronauts
+  @Query(() => IAstronautList)
+  async astronauts(
+    @Arg("limit", () => Int, { nullable: true }) limit: number = 20,
+    @Arg("offset", () => Int, { nullable: true }) offset: number = 0,
+    @Ctx() { models }: Context
+  ): Promise<IAstronautList> {
+    // Fetch count and astronaut list based with current pagination data
+    const [total, astronauts] = await Promise.all([
+      models.Astronaut.countDocuments(),
+      models.Astronaut.find()
+        .sort("created_at")
+        .limit(limit)
+        .skip(offset)
+        .exec(),
+    ])
+
+    return { astronauts, total }
+  }
 }
 
 export { AstronautResolver }
