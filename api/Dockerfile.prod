@@ -10,10 +10,6 @@ RUN yarn
 
 COPY . .
 
-ARG mongo_url
-
-ENV MONGO_URL=${mongo_url}
-
 RUN yarn build
 
 CMD yarn start

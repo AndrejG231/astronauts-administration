@@ -7,6 +7,12 @@ COPY yarn.lock ./
 
 RUN yarn
 
+ARG port
+ARG mongo_url
+
+ENV PORT=${port}
+ENV MONGO_URL=${mongo_url}
+
 COPY . .
 
 CMD yarn dev
