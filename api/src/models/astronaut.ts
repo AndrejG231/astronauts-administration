@@ -1,11 +1,6 @@
 import { Schema, model } from "mongoose"
 
-export interface IAstronaut {
-  firstName: string
-  lastName: string
-  birthDate: Date
-  superpower: string
-}
+import { IAstronaut } from "../typedefs/IAstronaut"
 
 const AstronautSchema = new Schema<IAstronaut>(
   {

@@ -5,7 +5,11 @@ import { buildSchema } from "type-graphql"
 import { connectMongo } from "./services/mongo"
 
 import { models } from "./models"
+
+import { AstronautResolver } from "./resolver/astronaut"
+
 import { applyGraphqlServer } from "./middleware/applyGraphqlServer"
+import { errorInterceptor } from "./middleware/errorInterceptor"
 
 const PORT = ~~(process.env.PORT || 4000)
 const MONGO_URL = process.env.MONGO_URL!
@@ -13,9 +17,10 @@ const MONGO_URL = process.env.MONGO_URL!
 const main = async () => {
   const db = await connectMongo(MONGO_URL)
 
-  // const schema = await buildSchema({
-  //   resolvers: [] as any,
-  // })
+  const schema = await buildSchema({
+    resolvers: [AstronautResolver],
+    globalMiddlewares: [errorInterceptor],
+  })
 
   const services = {
     db,
@@ -24,7 +29,7 @@ const main = async () => {
   const app = express()
 
   // Apply apollo server middleware on route "/graphql"
-  applyGraphqlServer({ app, schema, models, services })
+  applyGraphqlServer(app, { schema, models, services })
 
   app.get("/", (_, res) => {
     res.send("Welcome to Astronauts administration api.")

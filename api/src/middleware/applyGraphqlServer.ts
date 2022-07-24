@@ -3,8 +3,7 @@ import { Express } from "express"
 import { GraphQLSchema } from "graphql"
 import { Context } from "../types/Context"
 
-interface ApplyGqlServerArgs {
-  app: Express
+interface GqlServerArgs {
   schema: GraphQLSchema
   models: Context["models"]
   services: Context["services"]
@@ -14,12 +13,10 @@ interface ApplyGqlServerArgs {
  * Create graphql server middleware and apply it
  * to express server instance
  */
-const applyGraphqlServer = async ({
-  app,
-  schema,
-  models,
-  services,
-}: ApplyGqlServerArgs) => {
+const applyGraphqlServer = async (
+  app: Express,
+  { schema, models, services }: GqlServerArgs
+) => {
   const server = new ApolloServer({
     schema,
     context: ({ req, res }): Context => ({
