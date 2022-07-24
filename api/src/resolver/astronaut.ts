@@ -56,6 +56,72 @@ class AstronautResolver {
 
     return { astronauts, total }
   }
+
+  // CREATE
+  @Mutation(() => IActionResponse)
+  async createAstronaut(
+    @Arg("data", () => IAstronautCreateInput) data: IAstronautCreateInput,
+    @Ctx() { models }: Context
+  ): Promise<IActionResponse> {
+    // Validate input values
+    const validation = validateAstronaut(data)
+
+    if (!validation.isValid) {
+      throw new ApolloError(
+        `Invalid input value for field \
+        ${validation.field} - ${validation.problem}`,
+        "400"
+      )
+    }
+
+    const creation = await new models.Astronaut(data).save()
+
+    if (!creation?.id) {
+      throw new ApolloError(`Failed to create astronaut`, "500")
+    }
+
+    return {
+      message: "Successfully created astronaut",
+    }
+  }
+
+  // UPDATE
+  @Mutation(() => IActionResponse)
+  async updateAstronaut(
+    @Arg("id") id: string,
+    @Arg("data", () => IAstronautUpdateInput) data: IAstronautUpdateInput,
+    @Ctx() { services, models }: Context
+  ): Promise<IActionResponse> {
+    // Validate mongo ObjectId
+    if (!services.db.Types.ObjectId.isValid(id)) {
+      throw new ApolloError("Astronaut Id provided is not valid", "400")
+    }
+
+    // Validate input values
+    const validation = validateAstronaut(data)
+
+    if (!validation.isValid) {
+      throw new ApolloError(
+        `Invalid input value for field \
+        ${validation.field} - ${validation.problem}`,
+        "400"
+      )
+    }
+
+    // Update in db
+    const update = await models.Astronaut.findByIdAndUpdate(id, data, {
+      rawResult: true,
+      new: true,
+    }).exec()
+
+    if (!update.ok) {
+      throw new ApolloError(`Failed to update astronaut`, "500")
+    }
+
+    return {
+      message: "Successfully created astronaut",
+    }
+  }
 }
 
 export { AstronautResolver }
