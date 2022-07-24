@@ -1,10 +1,9 @@
 import mongoose from "mongoose"
 
 const connectMongo = async (url: string) => {
-  await mongoose.connect(url)
-  console.log("Successfully connected to mongo.")
+  const connection = await mongoose.connect(url)
 
-  return
+  return connection
 }
 
 export { connectMongo }
