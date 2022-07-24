@@ -1,0 +1,19 @@
+
+FROM node:16.13.2-alpine3.15
+
+WORKDIR /usr/src/api
+
+COPY package.json ./
+COPY yarn.lock ./
+
+RUN yarn
+
+COPY . .
+
+ARG mongo_url
+
+ENV MONGO_URL=${mongo_url}
+
+RUN yarn build
+
+CMD yarn start

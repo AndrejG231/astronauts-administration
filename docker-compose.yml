@@ -1,0 +1,20 @@
+services:
+  api:
+    build:
+        context: ./api
+        dockerfile: Dockerfile.dev
+    networks:
+        - default
+    volumes:
+        - "./api:/api"
+    ports:
+        - "4000:4000"
+  client:
+    build:
+      context: ./client
+    networks:
+      - default
+    volumes:
+      - "./client:/client"
+    ports:
+      - "3000:3000"
