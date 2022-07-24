@@ -1,7 +1,6 @@
 import "reflect-metadata"
 import express from "express"
 import { buildSchema } from "type-graphql"
-import { ApolloServer } from "apollo-server-express"
 
 import { connectMongo } from "./services/mongo"
 
@@ -14,9 +13,9 @@ const MONGO_URL = process.env.MONGO_URL!
 const main = async () => {
   const db = await connectMongo(MONGO_URL)
 
-  const schema = await buildSchema({
-    resolvers: [] as any,
-  })
+  // const schema = await buildSchema({
+  //   resolvers: [] as any,
+  // })
 
   const services = {
     db,

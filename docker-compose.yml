@@ -1,8 +1,11 @@
 services:
   api:
     build:
-        context: ./api
-        dockerfile: Dockerfile.dev
+      context: ./api
+      dockerfile: Dockerfile.dev
+      args:
+        port: "${PORT}"
+        mongo_url: "${MONGO_URL}"
     networks:
         - default
     volumes:

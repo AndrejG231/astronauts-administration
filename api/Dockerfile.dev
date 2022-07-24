@@ -1,6 +1,6 @@
 FROM node:16.13.2-alpine3.15
 
-WORKDIR /usr/src/api
+WORKDIR /api
 
 COPY package.json ./
 COPY yarn.lock ./
