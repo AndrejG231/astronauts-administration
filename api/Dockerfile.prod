@@ -12,8 +12,14 @@ COPY . .
 
 ARG mongo_url
 
+ARG server_port=4000
+
 ENV MONGO_URL=${mongo_url}
 
+ENV SERVER_PORT=${server_port}
+
 RUN yarn build
+
+EXPOSE ${server_port}
 
 CMD yarn start
