@@ -1,7 +1,8 @@
-import React from "react"
 import { ApiProvider } from "./api/Provider"
-import { Home } from "./pages/home"
+
 import { ReduxProvider } from "./store/ReduxProvider"
+
+import { Home } from "./pages/home"
 
 const App = () => {
   return (

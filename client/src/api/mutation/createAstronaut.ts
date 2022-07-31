@@ -1,6 +1,7 @@
-import { gql, MutationHookOptions, useMutation } from "@apollo/client"
+import { gql } from "@apollo/client"
+
 import { IActionResponse } from "../types/IActionResponse"
-import { IAstronaut, IAstronautUpdateFields } from "../types/IAstronauts"
+import { IAstronautUpdateFields } from "../types/IAstronauts"
 
 export interface IAstronautCreateMutationResponse {
   createAstronaut: IActionResponse

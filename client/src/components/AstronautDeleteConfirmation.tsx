@@ -1,8 +1,7 @@
+import { FC } from "react"
 import { Button, Typography } from "antd"
-import React, { FC } from "react"
-import { useSelector } from "react-redux"
+
 import { IAstronaut } from "../api/types/IAstronauts"
-import { RootState } from "../store/ReduxProvider"
 
 type Props = {
   itemToDelete: IAstronaut

@@ -1,4 +1,5 @@
-import { gql, QueryHookOptions, useQuery } from "@apollo/client"
+import { gql } from "@apollo/client"
+
 import { IAstronaut } from "../types/IAstronauts"
 
 export interface IAstronautQueryResponse {

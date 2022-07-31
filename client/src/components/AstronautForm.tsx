@@ -1,7 +1,8 @@
+import { FC, useLayoutEffect } from "react"
 import { Button, Form, Input } from "antd"
-import React, { FC } from "react"
-import { useLayoutEffect } from "react"
+
 import { IAstronaut, IAstronautUpdateFields } from "../api/types/IAstronauts"
+
 import { parseToFormDate } from "../utils/parseToFormDate"
 
 type Props = {
@@ -22,7 +23,7 @@ const AstronautForm: FC<Props> = ({ onConfirm, itemToEdit, loading }) => {
   }
 
   // reset form fields to initial values every time item changes
-  useLayoutEffect(handleReset, [itemToEdit])
+  useLayoutEffect(handleReset, [itemToEdit, form])
 
   const initialValues = itemToEdit && {
     ...itemToEdit,

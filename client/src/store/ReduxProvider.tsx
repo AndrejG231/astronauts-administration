@@ -1,6 +1,6 @@
-import { configureStore } from "@reduxjs/toolkit"
 import { FC, PropsWithChildren } from "react"
 import { Provider } from "react-redux"
+import { configureStore } from "@reduxjs/toolkit"
 import astronautsForm from "./astronautsForm"
 
 export const store = configureStore({

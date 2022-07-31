@@ -1,45 +1,59 @@
 import { createSlice } from "@reduxjs/toolkit"
 import type { PayloadAction } from "@reduxjs/toolkit"
 import { IAstronaut } from "../api/types/IAstronauts"
-import { store } from "./ReduxProvider"
 
-// Define a type for the slice state
+export type AstronautFormContentType = "create" | "update" | "delete"
 interface AstronautFormState {
-  isCreating?: boolean
-  itemToDelete?: IAstronaut | null
-  itemToEdit?: IAstronaut | null
+  formContent: {
+    item?: IAstronaut | null
+    type: AstronautFormContentType
+  } | null
 }
 
-// Define the initial state using that type
 const initialState: AstronautFormState = {
-  isCreating: false,
-  itemToDelete: null,
-  itemToEdit: null,
+  formContent: null,
 }
 
+/**
+ * Astronauts form store
+ * Handle information about currently selected item to edit/delete, creation mode
+ */
 export const astronautsFormSlice = createSlice({
   name: "astronautsFormSlice",
   initialState,
   reducers: {
-    setItemToEdit: (state, action: PayloadAction<IAstronaut | null>) => {
+    setItemToEdit: (
+      state,
+      action: PayloadAction<IAstronaut | null>
+    ): AstronautFormState => {
       return {
         ...state,
-        itemToEdit: action.payload,
+        formContent: {
+          type: "update",
+          item: action.payload,
+        },
       }
     },
-    setItemToDelete: (state, action: PayloadAction<IAstronaut | null>) => {
+    setItemToDelete: (
+      state,
+      action: PayloadAction<IAstronaut | null>
+    ): AstronautFormState => {
       return {
         ...state,
-        itemToDelete: action.payload,
+        formContent: {
+          type: "delete",
+          item: action.payload,
+        },
       }
     },
-    setIsCreating: (state, action: PayloadAction<boolean>) => {
+    createNew: (state): AstronautFormState => {
       return {
         ...state,
-        isCreating: action.payload,
+        formContent: {
+          type: "create",
+        },
       }
     },
-
     reset: () => ({ ...initialState }),
   },
 })

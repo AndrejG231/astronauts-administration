@@ -1,16 +1,18 @@
-import React, { FC, useState } from "react"
-import { Table, Space, TableProps, Button, Modal, Spin, Alert } from "antd"
+import { FC, useState } from "react"
+import { useDispatch } from "react-redux"
+import { useQuery } from "@apollo/client"
+import { Table, Space, TableProps, Button, Alert } from "antd"
+
 import {
   astronautsListQuery,
   IAstronautQueryResponse,
   IAstronautsQueryVariables,
 } from "../api/query/astronautsList"
 import { IAstronaut } from "../api/types/IAstronauts"
+
 import { LIST_PAGE_SIZE } from "../config"
-import { useDispatch } from "react-redux"
+
 import { astronautsFormActions } from "../store/astronautsForm"
-import { useQuery } from "@apollo/client"
-const { Column } = Table
 
 const AstronautsList: FC = () => {
   const [currentPage, setPage] = useState(1)
@@ -55,16 +57,20 @@ const AstronautsList: FC = () => {
 
   return (
     <Table dataSource={astronauts} pagination={pagination} rowKey="_id">
-      <Column title="First Name" dataIndex="firstName" key="firstName" />
-      <Column title="Last Name" dataIndex="lastName" key="lastName" />
-      <Column
+      <Table.Column title="First Name" dataIndex="firstName" key="firstName" />
+      <Table.Column title="Last Name" dataIndex="lastName" key="lastName" />
+      <Table.Column
         title="Birth date"
         dataIndex="birthDate"
         key="birthDate"
         render={(birthDate: string) => new Date(birthDate).toLocaleDateString()}
       />
-      <Column title="Superpower" dataIndex="superpower" key="superpower" />
-      <Column
+      <Table.Column
+        title="Superpower"
+        dataIndex="superpower"
+        key="superpower"
+      />
+      <Table.Column
         title="Action"
         key="action"
         render={(_, record: IAstronaut) => (

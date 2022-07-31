@@ -1,5 +1,6 @@
-import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client"
 import { FC, PropsWithChildren } from "react"
+import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client"
+
 import { BACKEND_URL } from "../config"
 
 const client = new ApolloClient({
