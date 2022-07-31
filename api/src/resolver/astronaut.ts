@@ -13,7 +13,7 @@ import { validateAstronaut } from "../utils/validateAstronaut"
 
 @Resolver()
 class AstronautResolver {
-  // SINGLE - Retrieve astronaut data
+  // READ SINGLE - Retrieve astronaut data
   @Query(() => IAstronaut)
   async astronaut(
     @Arg("id") id: string,
@@ -37,7 +37,7 @@ class AstronautResolver {
     return astronaut
   }
 
-  // LIST - Retrieve list of all astronauts
+  // READ LIST - Retrieve list of all astronauts
   @Query(() => IAstronautList)
   async astronauts(
     @Arg("limit", () => Int, { nullable: true }) limit: number = 20,
@@ -120,6 +120,29 @@ class AstronautResolver {
 
     return {
       message: "Successfully created astronaut",
+    }
+  }
+
+  // DELETE
+  @Mutation(() => IActionResponse)
+  async deleteAstronaut(
+    @Arg("id") id: string,
+    @Ctx() { services, models }: Context
+  ): Promise<IActionResponse> {
+    // Validate mongo ObjectId
+    if (!services.db.Types.ObjectId.isValid(id)) {
+      throw new ApolloError("Astronaut Id provided is not valid", "400")
+    }
+
+    // Delete from db
+    const success = await models.Astronaut.findByIdAndDelete({ _id: id }).exec()
+
+    if (!success) {
+      throw new ApolloError(`Failed to delete astronaut`, "500")
+    }
+
+    return {
+      message: "Successfully deleted astronaut.",
     }
   }
 }
