@@ -7,6 +7,7 @@ interface GqlServerArgs {
   schema: GraphQLSchema
   models: Context["models"]
   services: Context["services"]
+  path: string
 }
 
 /**
@@ -15,7 +16,7 @@ interface GqlServerArgs {
  */
 const applyGraphqlServer = async (
   app: Express,
-  { schema, models, services }: GqlServerArgs
+  { schema, models, services, path }: GqlServerArgs
 ) => {
   const server = new ApolloServer({
     schema,
@@ -29,7 +30,7 @@ const applyGraphqlServer = async (
 
   await server.start()
 
-  server.applyMiddleware({ app, path: "/graphql" })
+  server.applyMiddleware({ app, path })
 }
 
 export { applyGraphqlServer }

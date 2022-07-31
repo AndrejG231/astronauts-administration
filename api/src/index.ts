@@ -28,8 +28,8 @@ const main = async () => {
 
   const app = express()
 
-  // Apply apollo server middleware on route "/graphql"
-  applyGraphqlServer(app, { schema, models, services })
+  // Apply apollo server middleware
+  applyGraphqlServer(app, { schema, models, services, path: "/graphql" })
 
   app.get("/", (_, res) => {
     res.send("Welcome to Astronauts administration api.")

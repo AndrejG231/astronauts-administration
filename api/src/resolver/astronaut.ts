@@ -1,5 +1,5 @@
 import { Arg, Ctx, Query, Resolver, Int, Mutation } from "type-graphql"
-import { Context } from "../types/Context"
+import { ApolloError } from "apollo-server-express"
 
 import {
   IAstronaut,
@@ -7,8 +7,10 @@ import {
   IAstronautList,
   IAstronautUpdateInput,
 } from "../typedefs/IAstronaut"
-import { ApolloError } from "apollo-server-express"
 import { IActionResponse } from "../typedefs/IActionResponse"
+
+import { Context } from "../types/Context"
+
 import { validateAstronaut } from "../utils/validateAstronaut"
 
 @Resolver()
@@ -44,7 +46,7 @@ class AstronautResolver {
     @Arg("offset", () => Int, { nullable: true }) offset: number = 0,
     @Ctx() { models }: Context
   ): Promise<IAstronautList> {
-    // Fetch count and astronaut list based with current pagination data
+    // Fetch total count and astronauts list with requested pagination data
     const [total, astronauts] = await Promise.all([
       models.Astronaut.countDocuments(),
       models.Astronaut.find()
@@ -108,13 +110,12 @@ class AstronautResolver {
       )
     }
 
-    // Update in db
-    const update = await models.Astronaut.findByIdAndUpdate(id, data, {
+    const updateResponse = await models.Astronaut.findByIdAndUpdate(id, data, {
       rawResult: true,
       new: true,
     }).exec()
 
-    if (!update.ok) {
+    if (!updateResponse.ok) {
       throw new ApolloError(`Failed to update astronaut`, "500")
     }
 
@@ -134,10 +135,11 @@ class AstronautResolver {
       throw new ApolloError("Astronaut Id provided is not valid", "400")
     }
 
-    // Delete from db
-    const success = await models.Astronaut.findByIdAndDelete({ _id: id }).exec()
+    const deletedEntry = await models.Astronaut.findByIdAndDelete({
+      _id: id,
+    }).exec()
 
-    if (!success) {
+    if (!deletedEntry) {
       throw new ApolloError(`Failed to delete astronaut`, "500")
     }
 
