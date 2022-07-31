@@ -59,7 +59,7 @@ Requirements: [Docker](https://www.docker.com/) version 20+
 ```
 MONGO_URL=#mongoDb cluster access url
 ```
-1. Run `docker-compose up`  
+4. Run `docker-compose up`  
 
 
 
