@@ -9,6 +9,6 @@ RUN yarn
 
 COPY . .
 
-ENV API_URL=${api_url}
+ENV REACT_APP_API_URL=${api_url}
 
 CMD yarn start
