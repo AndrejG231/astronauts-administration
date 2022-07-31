@@ -50,7 +50,7 @@ class AstronautResolver {
     const [total, astronauts] = await Promise.all([
       models.Astronaut.countDocuments(),
       models.Astronaut.find()
-        .sort("created_at")
+        .sort({ createdAt: -1 })
         .limit(limit)
         .skip(offset)
         .exec(),
