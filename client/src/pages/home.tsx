@@ -17,6 +17,7 @@ const Home = () => {
     <MainLayout>
       <Button onClick={handleOpenCreateForm}>Create new</Button>
       <AstronautsList />
+      <AstronautsActionModal />
     </MainLayout>
   )
 }
