@@ -4,7 +4,6 @@ services:
       context: ./api
       dockerfile: Dockerfile.dev
       args:
-        port: "${PORT}"
         mongo_url: "${MONGO_URL}"
     networks:
         - default
