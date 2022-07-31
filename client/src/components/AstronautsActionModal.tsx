@@ -43,7 +43,11 @@ const AstronautsActionModal = () => {
 
   // Determine which mutation to use based on opened modal
   // Run the mutation + success callback / show error message
-  const handleConfirm = async (data?: IAstronautUpdateFields, id?: string) => {
+  const handleConfirm = async (
+    data?: IAstronautUpdateFields,
+    id?: string,
+    successCallback?: () => void
+  ) => {
     if (loading) return
     setLoading(true)
 
@@ -81,6 +85,7 @@ const AstronautsActionModal = () => {
     })
     client.resetStore()
     dispatch(astronautsFormActions.reset())
+    successCallback?.()
   }
 
   // Get specific modal content to be displayed

@@ -8,7 +8,11 @@ import { parseToFormDate } from "../utils/parseToFormDate"
 type Props = {
   itemToEdit?: IAstronaut
   loading: boolean
-  onConfirm: (data: IAstronautUpdateFields, id?: string) => void
+  onConfirm: (
+    data: IAstronautUpdateFields,
+    id?: string,
+    successCallback?: () => void
+  ) => void
 }
 
 const AstronautForm: FC<Props> = ({ onConfirm, itemToEdit, loading }) => {
@@ -19,7 +23,7 @@ const AstronautForm: FC<Props> = ({ onConfirm, itemToEdit, loading }) => {
   }
 
   const handleSubmit = (values: IAstronautUpdateFields) => {
-    onConfirm(values, itemToEdit && itemToEdit._id)
+    onConfirm(values, itemToEdit && itemToEdit._id, form.resetFields)
   }
 
   // reset form fields to initial values every time item changes
